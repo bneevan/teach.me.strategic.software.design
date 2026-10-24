@@ -3,9 +3,15 @@ window.COURSE_DATA = {
   lessons: [{ id: '0001', title: 'The cost of a change', module: 1, minutes: 10,
     href: 'lessons/0001-the-cost-of-a-change.html',
     description: 'Locate duplicated knowledge before choosing an abstraction.',
-    status: 'Awaiting your responses' }],
+    status: 'Available for review' },
+    { id: '0002', title: 'Diagnose before you refactor', module: 1, minutes: 12,
+      href: 'lessons/0002-diagnose-before-you-refactor.html',
+      description: 'Identify cognitive burden and hidden dependencies before choosing a fix.',
+      status: 'Available for practice' }],
   references: [{ title: 'Complexity and change', href: 'reference/complexity-and-change.html',
-    description: 'Core vocabulary, a five-question review, and an AI instruction pattern.' }],
+    description: 'Core vocabulary, a five-question review, and an AI instruction pattern.' },
+    { title: 'Diagnosing complexity', href: 'reference/diagnosing-complexity.html',
+      description: 'Cognitive load, dependencies, unknown unknowns, and evidence-based diagnosis.' }],
   modules: [
     ['See complexity', 'Complexity is a cost paid during change', 'Trace changes; diagnose complexity; compare tactical and strategic responses.'],
     ['See complexity', 'Deep modules, abstraction, and information hiding', 'Simplify caller obligations; hide decisions; design an interface twice.'],
@@ -42,6 +48,16 @@ window.COURSE_DATA = {
     { id: 'module-depth', topic: 'Interfaces', question: 'What makes a module deep, and what does not?',
       answer: 'It offers useful behavior behind an interface simpler than the work it hides. Extra implementation lines, unrelated responsibilities, and merely fewer methods do not establish depth.', source: 'reference/complexity-and-change.html' },
     { id: 'ai-review', topic: 'Judgment', question: 'What should you ask an AI agent for besides a working policy-change patch?',
-      answer: 'Identify representations of the changed fact, preserve independent rules, propose a bounded improvement, show the diff and behavioral evidence, and report assumptions and checks actually run.', source: 'reference/complexity-and-change.html' }
+      answer: 'Identify representations of the changed fact, preserve independent rules, propose a bounded improvement, show the diff and behavioral evidence, and report assumptions and checks actually run.', source: 'reference/complexity-and-change.html' },
+    { id: 'cognitive-load', topic: 'Complexity', question: 'What is cognitive load in a maintenance task?',
+      answer: 'The facts a maintainer must keep in mind to perform the task correctly, such as units, ordering constraints, meanings, and exceptions. A small function can impose a large cognitive burden.', source: 'reference/diagnosing-complexity.html' },
+    { id: 'unknown-unknowns', topic: 'Complexity', question: 'How does an unknown unknown differ from a known obligation?',
+      answer: 'A maintainer may not realize the obligation exists or that they need to look for it. Once discovered it is known; the design issue is how easily a relevant obligation can escape discovery.', source: 'reference/diagnosing-complexity.html' },
+    { id: 'dependency-symptoms', topic: 'Complexity', question: 'How can a dependency contribute to more than one complexity symptom?',
+      answer: 'Relying on another part can require coordinated edits, impose facts to remember, and create obligations that are easy to miss. Dependencies can be necessary; judge their locality and discoverability.', source: 'reference/diagnosing-complexity.html' },
+    { id: 'refresh-obligation', topic: 'Interfaces', question: 'A caller must refresh rules before asking for a cancellation decision. Is that part of the interface?',
+      answer: 'Yes. The interface includes the ordering and freshness obligations required for correct use, even when the function signature shows only a number argument.', source: 'lessons/0002-diagnose-before-you-refactor.html' },
+    { id: 'repair-vs-design', topic: 'Judgment', question: 'What can remain wrong after adding a forgotten refresh call?',
+      answer: 'The immediate path may be repaired, but future callers must still discover and remember the same sequence. A design improvement should reduce that coordination burden without concealing important failure or latency costs.', source: 'lessons/0002-diagnose-before-you-refactor.html' }
   ]
 };

@@ -10,7 +10,7 @@ Baseline editions: *A Philosophy of Software Design*, second edition; *The Pragm
 
 Expected entry skills: read functions and data structures, make a small program change, and understand a basic test. If those are unfamiliar, insert a short programming/testing bridge before coding assignments. No prior DDD or architecture knowledge required.
 
-There are **12 modules, each with three short lessons and a practical checkpoint**. A lesson targets roughly 10–20 minutes; module labs may take 45–90 minutes. This is a planning estimate, not a deadline. Only Lesson 1 is authored now; later lessons adapt to demonstrated understanding.
+There are **12 modules, each with three short lessons and a practical checkpoint**. A lesson targets roughly 10–20 minutes; module labs may take 45–90 minutes. This is a planning estimate, not a deadline. Lessons 1–2 are authored now; later lessons adapt to demonstrated understanding.
 
 Proposed recurring project: **a workshop-booking system** with enrollment, capacity, cancellation, waitlists, payments, and external providers. Begin with a single-process implementation, then introduce requirements that expose design trade-offs. TypeScript-like examples are provisional; use the learner's preferred language or real project when established.
 
@@ -170,6 +170,7 @@ Revisit concepts at the next lesson, around one week, and around one month after
 
 Maintain evidence in learning-records/ only after demonstrated understanding, disclosed prior knowledge, or a corrected misconception. Track actual review dates as evidence accumulates. Exposure alone is not mastery.
 
-## Initial lesson
+## Available lessons
 
-[Lesson 1: The cost of a change](lessons/0001-the-cost-of-a-change.html) · [Quick reference](reference/complexity-and-change.html)
+- [Lesson 1: The cost of a change](lessons/0001-the-cost-of-a-change.html) · [Quick reference](reference/complexity-and-change.html)
+- [Lesson 2: Diagnose before you refactor](lessons/0002-diagnose-before-you-refactor.html) · [Diagnostic reference](reference/diagnosing-complexity.html)

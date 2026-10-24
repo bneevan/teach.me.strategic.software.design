@@ -36,6 +36,13 @@
   }
   function dashboard() {
     $('lesson-count').textContent = data.lessons.length;
+    const current = data.lessons.at(-1);
+    $('current-module').textContent = `Latest lesson · Module ${current.module}`;
+    $('current-title').textContent = current.title;
+    $('current-description').textContent = current.description;
+    $('current-meta').textContent = `About ${current.minutes} minutes · ${current.status}`;
+    $('current-link').href = current.href;
+    $('current-link').textContent = `Open lesson ${Number(current.id)} →`;
     function refreshCount() {
       $('due-count').textContent = core.dueCards(data.cards, states, Date.now()).length;
     }
@@ -65,12 +72,16 @@
     renderLibrary();
     data.modules.forEach(([part, title, description], index) => {
       const panel = element('li', undefined, 'panel');
+      const available = data.lessons.filter(lesson => lesson.module === index + 1);
+      const status = available.length ? `${available.length} lesson${available.length === 1 ? '' : 's'} available · practice with feedback` : 'Planned · lessons not yet authored';
       panel.append(element('span', `${part} · M${index + 1}`, 'badge'), element('h3', title),
-        element('p', description), element('p', index === 0 ? 'Lesson 1 available · assessment pending' : 'Planned · lessons not yet authored', 'meta'));
-      if (index === 0) {
-        const link = element('a', 'Open first lesson →');
-        link.href = data.lessons[0].href;
-        panel.append(link);
+        element('p', description), element('p', status, 'meta'));
+      for (const lesson of available) {
+        const paragraph = element('p');
+        const link = element('a', `Lesson ${Number(lesson.id)}: ${lesson.title} →`);
+        link.href = lesson.href;
+        paragraph.append(link);
+        panel.append(paragraph);
       }
       $('module-list').append(panel);
     });
