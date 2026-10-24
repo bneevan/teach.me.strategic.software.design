@@ -1,0 +1,11 @@
+{
+  "name": "strategic-software-design-course",
+  "private": true,
+  "scripts": {
+    "build:docs": "node scripts/build-docs.mjs",
+    "test": "node --test tests/*.test.cjs tests/*.test.mjs"
+  },
+  "devDependencies": {
+    "marked": "^15.0.12"
+  }
+}

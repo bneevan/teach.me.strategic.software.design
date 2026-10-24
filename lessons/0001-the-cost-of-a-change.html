@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>01 · The cost of a change</title><link rel="stylesheet" href="../assets/course.css"></head><body><main>
+<nav aria-label="Course navigation"><a href="../index.html">Dashboard</a><a href="../flashcards.html">Flashcards</a><a href="../COURSE.html">Course roadmap</a><a href="../reference/complexity-and-change.html">Quick reference</a></nav>
+<p class="eyebrow">Part I · Module 1 · Lesson 1</p><h1>The cost of a change</h1><p class="meta">About 10 minutes · Goal: locate duplicated knowledge before choosing an abstraction.</p>
+<aside>Mission connection: an AI agent can produce a passing patch while leaving the next change harder. Your job is to evaluate where the knowledge lives—not merely whether today's output works.</aside>
+<h2>1. Start with a changing fact</h2>
+<p>Software encodes knowledge: when cancellation is allowed, what capacity means, how a payment is identified. If one business fact has several independently maintained representations, changing that fact requires finding and coordinating them all. Missing one can make the system contradict itself.</p>
+<p>Hunt and Thomas emphasize that <strong>DRY concerns knowledge, not just repeated lines</strong>. They also describe maintenance as ongoing work, not a phase that starts after release. <a href="https://media.pragprog.com/titles/tpp20/dry.pdf">Read the official extract, especially “DRY is More Than Code.”</a></p>
+<p>For this exercise, call the spread of work required by one conceptual change <strong>change amplification</strong>. We will judge designs by a concrete change scenario, not by a universal file-count score. Several files can change for good reasons.</p>
+<h2>2. A small worked contrast</h2>
+<p>A workshop currently permits cancellation until <strong>24 hours before its start</strong>. The preview and server enforcement both implement that policy:</p>
+<pre><code>// ui/cancellation-preview.ts
+const allowed = hoursUntilStart &gt;= 24;
+
+// server/cancel-booking.ts
+if (hoursUntilStart &lt; 24) return reject("Too late");</code></pre>
+<p>The two expressions look different, but encode the same rule. Changing only the preview would not change server enforcement. Changing only enforcement would leave the preview misleading.</p>
+<p>A possible improvement is one authoritative policy module, exercised through a meaningful interface:</p>
+<pre><code>type CancellationDecision = {
+  allowed: boolean;
+  reason: string;
+};
+
+function cancellationDecision(
+  hoursUntilStart: number
+): CancellationDecision {
+  const allowed = hoursUntilStart &gt;= 24;
+  return { allowed, reason: allowed ? "Within policy" : "Too late" };
+}</code></pre>
+<p>This is a sketch, not production architecture. A shared library may work when the UI and server can use it; otherwise the server might expose the decision. <strong>The server must still enforce it at cancellation time.</strong> A preview can become stale. Validate real timestamps and clock assumptions in a production implementation.</p>
+<p>Notice what we did <em>not</em> build: a configurable policy engine for every future business rule. Localizing an actual shared fact is different from predicting every future variation.</p>
+<h2>3. Tactical, strategic, speculative</h2>
+<ul><li><strong>Tactical patch:</strong> update the known comparisons and ship. It may be appropriate under incident constraints, but the coordination burden remains.</li><li><strong>Strategic investment:</strong> give the policy an authoritative home, simplify callers, and verify behavior. The extra work has a specific payoff under the next policy change.</li><li><strong>Speculative overengineering:</strong> introduce an elaborate generic engine without concrete requirements. More machinery is not automatically more foresight.</li></ul>
+<p>These contrasts are our instructional synthesis. Later readings deepen Ousterhout's distinction between tactical and strategic programming and Evans's separate concept of strategic domain design. They are not synonymous.</p>
+<h2>4. Your turn — reason before editing</h2>
+<p><strong>Scenario:</strong> The business now requires a <strong>48-hour cancellation cutoff</strong>. Reminder emails must still be sent <strong>24 hours before the workshop</strong>. Treat hoursUntilStart as a validated number for this exercise.</p>
+<pre><code>// cancellation-preview.ts
+export function canShowCancel(hoursUntilStart: number) {
+  return hoursUntilStart &gt;= 24;
+}
+
+// cancellation-command.ts — authoritative enforcement
+export function canCancel(hoursUntilStart: number) {
+  return hoursUntilStart &gt;= 24;
+}
+
+// reminders.ts — separate scheduling rule
+export const reminderLeadHours = 24;</code></pre>
+<ol><li>Which locations must change? Which must not? Explain in terms of knowledge, not matching text.</li><li>Propose one modest design improvement. Write a tiny code sketch or describe the interface and callers. Explain what callers no longer need to know.</li><li>Name two tests at the cutoff boundary, including their expected outcomes.</li><li>An AI agent proposes putting all three values into <code>HOURS_BEFORE_WORKSHOP</code>. Write a short review accepting or rejecting that change and explaining why.</li></ol>
+<p><strong>Transfer question:</strong> If cancellation in the preview and command came from two genuinely independent business policies that merely happened to match today, would your design still be appropriate? What fact would you ask the business to clarify?</p>
+<details><summary>Need a hint? Try retrieval first.</summary><p>Ask “what business fact would cause this expression to change?” for each location. Identical values need not have the same reason to change. Tests immediately below and exactly at a threshold distinguish inclusive from exclusive rules.</p></details>
+<h2>5. Bring back your reasoning</h2>
+<p>Send your four answers and, if you can, the transfer answer. I will evaluate your change map, abstraction, tests, and review before we advance. Ask follow-up questions about anything unclear; uncertainty is useful evidence, not a failure.</p>
+<p>Also tell me your preferred programming language, current experience, and whether you would rather use your own project. No full implementation is required yet.</p>
+<footer><strong>Primary reading:</strong> <a href="https://media.pragprog.com/titles/tpp20/dry.pdf">Hunt &amp; Thomas, “DRY—The Evils of Duplication”</a>. First read through “DRY is More Than Code”; the later section on coincidental duplication is especially relevant after your attempt. <a href="../reference/complexity-and-change.html">Keep the one-page reference</a>. Next lesson is unlocked by your reasoning, not by clicking forward.</footer>
+</main></body></html>

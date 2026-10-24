@@ -1,0 +1,47 @@
+/* Shared catalog. Add lessons/cards here as they are authored; COURSE.html is the browser curriculum; COURSE.md is its source. */
+window.COURSE_DATA = {
+  lessons: [{ id: '0001', title: 'The cost of a change', module: 1, minutes: 10,
+    href: 'lessons/0001-the-cost-of-a-change.html',
+    description: 'Locate duplicated knowledge before choosing an abstraction.',
+    status: 'Awaiting your responses' }],
+  references: [{ title: 'Complexity and change', href: 'reference/complexity-and-change.html',
+    description: 'Core vocabulary, a five-question review, and an AI instruction pattern.' }],
+  modules: [
+    ['See complexity', 'Complexity is a cost paid during change', 'Trace changes; diagnose complexity; compare tactical and strategic responses.'],
+    ['See complexity', 'Deep modules, abstraction, and information hiding', 'Simplify caller obligations; hide decisions; design an interface twice.'],
+    ['See complexity', 'Feedback, tracer bullets, and reversibility', 'Build a running slice; verify assumptions; choose useful experiments.'],
+    ['Model meaning', 'Domain discovery and ubiquitous language', 'Discover scenarios; build a glossary; refine models with counterexamples.'],
+    ['Model meaning', 'Entities, value objects, and invariants', 'Choose identity and value semantics; express valid behavior.'],
+    ['Model meaning', 'Aggregates and consistency', 'Protect invariants; reason about transactions and concurrent changes.'],
+    ['Evolve structure', 'Coupling, cohesion, and architectural seams', 'Localize knowledge; separate policy and mechanisms; justify seams.'],
+    ['Evolve structure', 'Refactoring toward deeper insight', 'Protect behavior; make small changes; evolve the domain model.'],
+    ['Evolve structure', 'Bounded contexts and strategic domain design', 'Distill subdomains; preserve model integrity; map context relationships.'],
+    ['Architectural judgment', 'Integration, partial failure, and operational reality', 'Reason about retries, events, recovery, and observable guarantees.'],
+    ['Architectural judgment', 'Architecture as evidence-based evolution', 'Compare alternatives; plan migration; revise decisions with evidence.'],
+    ['Architectural judgment', 'Strategic direction of AI agents', 'Specify constraints; verify agent changes; defend the capstone design.']
+  ],
+  cards: [
+    { id: 'change-amplification', topic: 'Complexity', question: 'What is change amplification?',
+      answer: 'One conceptual change requires coordinated edits in several places. Investigate which knowledge is scattered; multiple changed files alone do not prove poor design.', source: 'lessons/0001-the-cost-of-a-change.html' },
+    { id: 'dry-knowledge', topic: 'Knowledge', question: 'What does DRY aim to give a single authoritative representation?',
+      answer: 'A piece of knowledge or intent—not every repeated line of code. Different-looking code can encode the same rule; identical-looking code can encode independent rules.', source: 'lessons/0001-the-cost-of-a-change.html' },
+    { id: 'independent-rules', topic: 'Knowledge', question: 'Cancellation and reminders both use 24 hours. Is that enough reason to share a constant?',
+      answer: 'No. Ask whether they represent the same business fact and must change together. Coincidentally equal values for independent policies should not be coupled.', source: 'lessons/0001-the-cost-of-a-change.html' },
+    { id: 'strategic-investment', topic: 'Judgment', question: 'How does strategic investment differ from a tactical patch and speculative overengineering?',
+      answer: 'A tactical patch delivers the immediate change but may leave coordination costs. Strategic investment makes a justified improvement to future change. Overengineering adds machinery for needs not established by evidence.', source: 'lessons/0001-the-cost-of-a-change.html' },
+    { id: 'constant-vs-policy', topic: 'Interfaces', question: 'Why might a shared constant be weaker than a policy module?',
+      answer: 'A constant centralizes a value but can leave each caller interpreting the rule. A policy module can centralize the decision and its meaning as well. Choose the smallest justified design.', source: 'reference/complexity-and-change.html' },
+    { id: 'server-enforcement', topic: 'Verification', question: 'If the UI previews a cancellation decision, why must the server still check it?',
+      answer: 'A preview can become stale and is not authoritative enforcement. The server must enforce the policy when cancellation is attempted.', source: 'lessons/0001-the-cost-of-a-change.html' },
+    { id: 'threshold-tests', topic: 'Verification', question: 'Cancellation requires at least 48 hours of notice. Which two boundary tests distinguish an inclusive cutoff?',
+      answer: 'Just below 48 hours must be rejected; exactly 48 hours must be allowed. In production, also make timestamp precision and clock assumptions explicit.', source: 'lessons/0001-the-cost-of-a-change.html' },
+    { id: 'whole-interface', topic: 'Interfaces', question: 'What belongs to an interface beyond the function signature?',
+      answer: 'Everything callers must know to use a module correctly: invariants, error behavior, sequencing, configuration, and relevant performance constraints.', source: 'reference/complexity-and-change.html' },
+    { id: 'information-hiding', topic: 'Interfaces', question: 'What does information hiding keep inside a module?',
+      answer: 'A design decision, so callers do not need to independently encode or depend on it. It is more than making fields private.', source: 'reference/complexity-and-change.html' },
+    { id: 'module-depth', topic: 'Interfaces', question: 'What makes a module deep, and what does not?',
+      answer: 'It offers useful behavior behind an interface simpler than the work it hides. Extra implementation lines, unrelated responsibilities, and merely fewer methods do not establish depth.', source: 'reference/complexity-and-change.html' },
+    { id: 'ai-review', topic: 'Judgment', question: 'What should you ask an AI agent for besides a working policy-change patch?',
+      answer: 'Identify representations of the changed fact, preserve independent rules, propose a bounded improvement, show the diff and behavioral evidence, and report assumptions and checks actually run.', source: 'reference/complexity-and-change.html' }
+  ]
+};

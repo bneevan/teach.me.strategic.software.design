@@ -1,0 +1,160 @@
+<!doctype html>
+<!-- Generated from COURSE.md. Edit the Markdown and run npm run build:docs. -->
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Strategic Software Design: From Working Code to Architectural Judgment</title><link rel="stylesheet" href="assets/course.css"><link rel="stylesheet" href="assets/documents.css"></head>
+<body><main class="document-page" id="top">
+<nav aria-label="Main navigation"><a href="index.html">Dashboard</a><a href="flashcards.html">Flashcards</a><a href="COURSE.html" aria-current="page">Full curriculum</a><a href="RESOURCES.html">Sources</a><a href="MISSION.html">Mission</a></nav>
+<p class="eyebrow">The complete learning path</p>
+<h1 id="strategic-software-design-from-working-code-to-architectural-judgment">Strategic Software Design: From Working Code to Architectural Judgment</h1>
+<details class="document-toc" open><summary>On this page</summary><ol><li class="toc-level-2"><a href="#mission-and-course-contract">Mission and course contract</a></li>
+<li class="toc-level-2"><a href="#entry-and-pacing">Entry and pacing</a></li>
+<li class="toc-level-2"><a href="#prerequisite-graph">Prerequisite graph</a></li>
+<li class="toc-level-2"><a href="#part-i-see-complexity-and-build-feedback">Part I — See complexity and build feedback</a></li>
+<li class="toc-level-3"><a href="#m1-complexity-is-a-cost-paid-during-change">M1. Complexity is a cost paid during change</a></li>
+<li class="toc-level-3"><a href="#m2-deep-modules-abstraction-and-information-hiding">M2. Deep modules, abstraction, and information hiding</a></li>
+<li class="toc-level-3"><a href="#m3-feedback-tracer-bullets-and-reversible-decisions">M3. Feedback, tracer bullets, and reversible decisions</a></li>
+<li class="toc-level-2"><a href="#part-ii-model-meaning-and-localize-business-rules">Part II — Model meaning and localize business rules</a></li>
+<li class="toc-level-3"><a href="#m4-domain-discovery-and-ubiquitous-language">M4. Domain discovery and ubiquitous language</a></li>
+<li class="toc-level-3"><a href="#m5-entities-value-objects-and-explicit-invariants">M5. Entities, value objects, and explicit invariants</a></li>
+<li class="toc-level-3"><a href="#m6-aggregates-and-consistency">M6. Aggregates and consistency</a></li>
+<li class="toc-level-2"><a href="#part-iii-evolve-structure-without-scattering-knowledge">Part III — Evolve structure without scattering knowledge</a></li>
+<li class="toc-level-3"><a href="#m7-coupling-cohesion-and-architectural-seams">M7. Coupling, cohesion, and architectural seams</a></li>
+<li class="toc-level-3"><a href="#m8-refactoring-toward-deeper-insight">M8. Refactoring toward deeper insight</a></li>
+<li class="toc-level-3"><a href="#m9-bounded-contexts-and-strategic-domain-design">M9. Bounded contexts and strategic domain design</a></li>
+<li class="toc-level-2"><a href="#part-iv-reason-about-architecture-under-uncertainty">Part IV — Reason about architecture under uncertainty</a></li>
+<li class="toc-level-3"><a href="#m10-integration-partial-failure-and-operational-reality">M10. Integration, partial failure, and operational reality</a></li>
+<li class="toc-level-3"><a href="#m11-architecture-as-evidence-based-evolution">M11. Architecture as evidence-based evolution</a></li>
+<li class="toc-level-3"><a href="#m12-strategic-direction-of-ai-agents-capstone">M12. Strategic direction of AI agents — capstone</a></li>
+<li class="toc-level-2"><a href="#learning-and-assessment-protocol">Learning and assessment protocol</a></li>
+<li class="toc-level-3"><a href="#initial-lesson">Initial lesson</a></li></ol></details>
+<article><h2 id="mission-and-course-contract">Mission and course contract</h2>
+<p>See <a href="MISSION.html">MISSION.md</a>. The course integrates three lenses: <strong>complexity and module depth</strong> (Ousterhout), <strong>feedback and adaptability</strong> (Hunt &amp; Thomas), and <strong>domain meaning and model integrity</strong> (Evans). These are complementary perspectives, not interchangeable definitions. Ousterhout&#39;s strategic programming is sustained investment in design; Evans&#39;s strategic design concerns models, contexts, relationships, and investment at larger scale.</p>
+<p>Baseline editions: <em>A Philosophy of Software Design</em>, second edition; <em>The Pragmatic Programmer</em>, 20th Anniversary Edition; <em>Domain-Driven Design</em>, original book, with Evans&#39;s public reference for pattern summaries. See <a href="RESOURCES.html">RESOURCES.md</a>. AI workflows are instructor synthesis.</p>
+<h2 id="entry-and-pacing">Entry and pacing</h2>
+<p>Expected entry skills: read functions and data structures, make a small program change, and understand a basic test. If those are unfamiliar, insert a short programming/testing bridge before coding assignments. No prior DDD or architecture knowledge required.</p>
+<p>There are <strong>12 modules, each with three short lessons and a practical checkpoint</strong>. A lesson targets roughly 10–20 minutes; module labs may take 45–90 minutes. This is a planning estimate, not a deadline. Only Lesson 1 is authored now; later lessons adapt to demonstrated understanding.</p>
+<p>Proposed recurring project: <strong>a workshop-booking system</strong> with enrollment, capacity, cancellation, waitlists, payments, and external providers. Begin with a single-process implementation, then introduce requirements that expose design trade-offs. TypeScript-like examples are provisional; use the learner&#39;s preferred language or real project when established.</p>
+<h2 id="prerequisite-graph">Prerequisite graph</h2>
+<p>Main progression: <strong>M1 → M2 → M3 → M4 → M5 → M6 → M7 → M8 → M9 → M10 → M11 → M12</strong>.</p>
+<p>Minimum conceptual prerequisites are stated below; the main progression adds cumulative practice. M4 specifically needs M1–M2; M7 needs M2–M3 and M5–M6; M8 needs M4–M7; M9 needs M3 and M6–M8; M10 needs M3 and M7–M9; M11 needs M8–M10; M12 integrates all. Naming and bounded-context awareness appear early; advanced context integration comes later.</p>
+<h2 id="part-i-see-complexity-and-build-feedback">Part I — See complexity and build feedback</h2>
+<h3 id="m1-complexity-is-a-cost-paid-during-change">M1. Complexity is a cost paid during change</h3>
+<p><strong>Prerequisites:</strong> entry skills only.</p>
+<ol>
+<li>Trace a change: scattered knowledge, change amplification, and coincidental similarity.</li>
+<li>Diagnose cognitive load, dependencies, and unknown unknowns from concrete change tasks.</li>
+<li>Compare tactical delivery, strategic investment, and speculative overengineering.</li>
+</ol>
+<p><strong>Objectives/outcome:</strong> explain why a short implementation can be costly to maintain; produce a change-impact map and a justified, bounded improvement.</p>
+<p><strong>Lab:</strong> code a cancellation-policy change; map what must change; review a superficially tidy patch. <strong>AI challenge:</strong> replace “make it cleaner” with a prompt naming authoritative rules, scope, and evidence. <strong>Checkpoint:</strong> predict the impact of an unfamiliar rule change and identify when not to abstract.</p>
+<h3 id="m2-deep-modules-abstraction-and-information-hiding">M2. Deep modules, abstraction, and information hiding</h3>
+<p><strong>Prerequisites:</strong> M1.</p>
+<ol>
+<li>Read the whole interface: invariants, errors, sequencing, configuration, and performance—not just signatures.</li>
+<li>Hide design decisions; distinguish a deep module from a pass-through or a god object.</li>
+<li>Design an interface twice; compare caller knowledge and locality under change.</li>
+</ol>
+<p><strong>Objectives/outcome:</strong> place one volatile decision inside a module and demonstrate simpler callers without hiding necessary behavior.</p>
+<p><strong>Lab:</strong> implement a booking-policy module; compare two interfaces under a policy change; review shallow wrappers and overgeneralized options. <strong>AI challenge:</strong> request alternative interfaces before implementations. <strong>Checkpoint:</strong> defend a design using caller obligations and a change scenario, not line counts.</p>
+<h3 id="m3-feedback-tracer-bullets-and-reversible-decisions">M3. Feedback, tracer bullets, and reversible decisions</h3>
+<p><strong>Prerequisites:</strong> M1–M2.</p>
+<ol>
+<li>Build a tracer bullet through real layers; distinguish it from a throwaway prototype.</li>
+<li>Use contracts, tests, version control, and automation to create trustworthy feedback.</li>
+<li>Make risk-driven experiments and reversible decisions without speculative extension points.</li>
+</ol>
+<p><strong>Objectives/outcome:</strong> validate an end-to-end booking path and an architectural uncertainty with explicit success/failure criteria.</p>
+<p><strong>Lab:</strong> deliver a thin running slice through input, domain behavior, and persistence; investigate an uncertain integration separately; review misleading mocks. <strong>AI challenge:</strong> demand runnable evidence and distinguish tool output from claims. <strong>Checkpoint:</strong> choose prototype vs tracer bullet for a new uncertainty.</p>
+<h2 id="part-ii-model-meaning-and-localize-business-rules">Part II — Model meaning and localize business rules</h2>
+<h3 id="m4-domain-discovery-and-ubiquitous-language">M4. Domain discovery and ubiquitous language</h3>
+<p><strong>Prerequisites:</strong> M1–M2; M3 supplies the running project.</p>
+<ol>
+<li>Discover scenarios, domain-expert vocabulary, and contradictions before inventing classes.</li>
+<li>Build a purposeful model and ubiquitous language within an explicitly named bounded context.</li>
+<li>Translate scenarios into code and tests; refine language when new examples disagree.</li>
+</ol>
+<p><strong>Objectives/outcome:</strong> produce a small glossary, scenario set, and model whose names preserve business distinctions.</p>
+<p><strong>Lab:</strong> separate booking, attendance, and payment meanings of “confirmed”; implement a scenario; review CRUD-shaped terminology. <strong>AI challenge:</strong> require questions for ambiguous terms rather than invented requirements. <strong>Checkpoint:</strong> model a counterexample and explain what the model intentionally omits.</p>
+<h3 id="m5-entities-value-objects-and-explicit-invariants">M5. Entities, value objects, and explicit invariants</h3>
+<p><strong>Prerequisites:</strong> M2 and M4.</p>
+<ol>
+<li>Choose identity vs value semantics and model lifecycle explicitly.</li>
+<li>Use value objects, contracts, intention-revealing interfaces, and side-effect-free calculations.</li>
+<li>Place behavior where its knowledge belongs; use domain services when justified.</li>
+</ol>
+<p><strong>Objectives/outcome:</strong> enforce business invariants through meaningful operations, without reducing DDD to a class catalog.</p>
+<p><strong>Lab:</strong> implement time windows, prices, and booking transitions; challenge invalid states; review anemic models and excessive object ceremony. <strong>AI challenge:</strong> ask for valid/invalid examples before generated types. <strong>Checkpoint:</strong> defend an entity/value choice under changed requirements.</p>
+<h3 id="m6-aggregates-and-consistency">M6. Aggregates and consistency</h3>
+<p><strong>Prerequisites:</strong> M3–M5.</p>
+<ol>
+<li>Define invariants and transactional consistency before choosing aggregate size.</li>
+<li>Design aggregate operations, factories, and repositories around lifecycle and consistency needs.</li>
+<li>Explore concurrent enrollment, contention, and consistency across aggregates.</li>
+</ol>
+<p><strong>Objectives/outcome:</strong> prevent overselling under an explicit concurrency model and explain which guarantees are immediate or deferred.</p>
+<p><strong>Lab:</strong> reproduce a capacity race; implement a justified transaction or concurrency strategy; review a giant object graph and a check-then-act bug. <strong>AI challenge:</strong> require an interleaving that would break a proposed fix. <strong>Checkpoint:</strong> reject a superficially passing but concurrency-unsafe implementation.</p>
+<h2 id="part-iii-evolve-structure-without-scattering-knowledge">Part III — Evolve structure without scattering knowledge</h2>
+<h3 id="m7-coupling-cohesion-and-architectural-seams">M7. Coupling, cohesion, and architectural seams</h3>
+<p><strong>Prerequisites:</strong> M2–M3 and M5–M6.</p>
+<ol>
+<li>Analyze semantic, temporal, data, and operational coupling; group behavior by knowledge that changes together.</li>
+<li>Separate domain policy from technical mechanisms; use adapters at justified seams.</li>
+<li>Compare layered and ports-and-adapters arrangements; distinguish an internal seam from a bounded context.</li>
+</ol>
+<p><strong>Objectives/outcome:</strong> restructure one running path so changes are local and tests use meaningful interfaces, not internal call choreography.</p>
+<p><strong>Lab:</strong> replace persistence or payment integration without rewriting policy; review pass-through layers and excessive dependency injection. <strong>AI challenge:</strong> constrain permitted dependencies and evaluate the resulting change surface. <strong>Checkpoint:</strong> defend both a seam and a place where no seam is needed.</p>
+<h3 id="m8-refactoring-toward-deeper-insight">M8. Refactoring toward deeper insight</h3>
+<p><strong>Prerequisites:</strong> M4–M7.</p>
+<ol>
+<li>Establish behavioral protection with characterization, example, and property-based tests.</li>
+<li>Refactor in small steps: distinguish behavior-preserving restructuring from intentional behavior change.</li>
+<li>Change the model when deeper insight demands it; use naming and explanatory comments to preserve intent.</li>
+</ol>
+<p><strong>Objectives/outcome:</strong> produce a safe sequence of changes that improves locality and model clarity, not just cosmetics.</p>
+<p><strong>Lab:</strong> introduce waitlists into an existing model; separate refactoring from new behavior; review brittle tests, stale comments, and premature generalization. <strong>AI challenge:</strong> split a broad rewrite into independently verifiable patches. <strong>Checkpoint:</strong> identify evidence of preserved behavior and remaining uncertainty.</p>
+<h3 id="m9-bounded-contexts-and-strategic-domain-design">M9. Bounded contexts and strategic domain design</h3>
+<p><strong>Prerequisites:</strong> M3 and M6–M8.</p>
+<ol>
+<li>Distill core and generic subdomains and identify where design investment pays off.</li>
+<li>Define bounded contexts by language and model integrity, not database tables or deployment units.</li>
+<li>Draw a context map; compare partnership, customer/supplier, conformist, shared kernel, anticorruption layer, published language, and separate ways.</li>
+</ol>
+<p><strong>Objectives/outcome:</strong> explain conflicting models and team relationships without assuming every context needs a microservice.</p>
+<p><strong>Lab:</strong> separate enrollment and billing models; implement a translation; review a universal enterprise model and premature service extraction. <strong>AI challenge:</strong> require explicit language ownership and prohibit importing another context&#39;s internal model. <strong>Checkpoint:</strong> justify a context relationship given team and delivery constraints.</p>
+<h2 id="part-iv-reason-about-architecture-under-uncertainty">Part IV — Reason about architecture under uncertainty</h2>
+<h3 id="m10-integration-partial-failure-and-operational-reality">M10. Integration, partial failure, and operational reality</h3>
+<p><strong>Prerequisites:</strong> M3 and M7–M9.</p>
+<ol>
+<li>Compare synchronous interactions with domain events and explicit asynchronous contracts.</li>
+<li>Design for retries, idempotency, ordering, timeouts, and compensation under stated failure assumptions.</li>
+<li>Use observability, security constraints, and measured performance to evaluate architectural choices.</li>
+</ol>
+<p><strong>Objectives/outcome:</strong> state precisely what a booking/payment workflow guarantees and how failure is detected and recovered.</p>
+<p><strong>Lab:</strong> inject duplicate payment notifications and process failure; implement recovery; review unsafe retries and unjustified event sourcing. <strong>AI challenge:</strong> require failure timelines, not happy-path diagrams. <strong>Checkpoint:</strong> reason through a previously unseen failure sequence. Distributed techniques are extensions, not claims that the three books prescribe one architecture.</p>
+<h3 id="m11-architecture-as-evidence-based-evolution">M11. Architecture as evidence-based evolution</h3>
+<p><strong>Prerequisites:</strong> M8–M10.</p>
+<ol>
+<li>Compare alternatives with quality-attribute scenarios, constraints, and decision records.</li>
+<li>Plan incremental legacy migration with compatibility, data transition, rollback, and operational checkpoints.</li>
+<li>Allocate strategic investment using evidence from change history, risk, and domain value.</li>
+</ol>
+<p><strong>Objectives/outcome:</strong> make a defensible architectural decision and evolution plan without treating diagrams or patterns as proof.</p>
+<p><strong>Lab:</strong> evaluate modular monolith vs service extraction for a stated workload and team; implement one migration slice; review a big-bang rewrite proposal. <strong>AI challenge:</strong> ask an agent to argue against its preferred design and identify missing evidence. <strong>Checkpoint:</strong> revise the decision when an assumption changes.</p>
+<h3 id="m12-strategic-direction-of-ai-agents-capstone">M12. Strategic direction of AI agents — capstone</h3>
+<p><strong>Prerequisites:</strong> M1–M11. Agent work has already been practiced in every module.</p>
+<ol>
+<li>Write a design brief: vocabulary, invariants, constraints, alternatives, acceptance evidence, and non-goals.</li>
+<li>Delegate bounded implementation, independently inspect diffs, and verify correctness and design quality.</li>
+<li>Respond to a surprise requirement and present an architectural defense with uncertainty and follow-up work.</li>
+</ol>
+<p><strong>Objectives/outcome:</strong> guide rather than merely prompt an agent; own the model, decisions, and evidence of maintainability.</p>
+<p><strong>Capstone:</strong> extend the booking system with a new commercial policy and unreliable external provider. Deliver code/tests, glossary, interface rationale, context map, decision record, migration/rollback plan, and a review of an intentionally flawed AI patch. <strong>Checkpoint:</strong> implement a new change, defend alternatives, reject unsupported agent claims, and explain residual risk.</p>
+<h2 id="learning-and-assessment-protocol">Learning and assessment protocol</h2>
+<p>Every module uses the same loop: <strong>closed-note recall → one concept → worked contrast → small exercise → feedback → changed assumption → practical checkpoint</strong>. Lesson-sized tasks stay small; coding/design/review work is distributed across the module, not crammed into every lesson.</p>
+<p>Assess four dimensions as relevant: <strong>identify the knowledge; trace change; justify trade-offs; specify verification</strong>. Each receives 0 (absent/incorrect), 1 (partial), or 2 (justified with evidence). Progress requires justified reasoning on the relevant dimensions plus handling a changed assumption. A misconception triggers a focused question or smaller task, not an answer dump or automatic advancement.</p>
+<p>Revisit concepts at the next lesson, around one week, and around one month after demonstrated learning. Adjust intervals to actual sessions. Begin with unaided retrieval; add hints afterward. Interleave already-taught skills with new practical tasks. Use delayed transfer questions to distinguish fluency from durable understanding.</p>
+<p>Maintain evidence in learning-records/ only after demonstrated understanding, disclosed prior knowledge, or a corrected misconception. Track actual review dates as evidence accumulates. Exposure alone is not mastery.</p>
+<h3 id="initial-lesson">Initial lesson</h3>
+<p><a href="lessons/0001-the-cost-of-a-change.html">Lesson 1: The cost of a change</a> · <a href="reference/complexity-and-change.html">Quick reference</a></p>
+</article>
+<footer><a href="#top">Back to top ↑</a> · <a href="index.html">Return to dashboard</a><p>Generated from the course Markdown. Content changes belong in COURSE.md; rebuild with <code>npm run build:docs</code>. This page works offline without JavaScript.</p></footer>
+</main></body></html>
